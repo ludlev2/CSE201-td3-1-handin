@@ -118,11 +118,48 @@ bool simulate_projectile(const double magnitude, const double angle,
   return hit_target;
 }
 
+
+void sort(double *&array, const int num_elements)
+{
+
+  for (int i = 0; i < num_elements  - 1; i+=3)
+  {
+    for (int j = 0; j < num_elements - 3 - i; j+=3)
+    {
+      if (array[j] > array[j + 3])
+      {
+        double temp1 = array[j];
+        double temp2 = array[j + 1];
+        double temp3 = array[j + 2];
+
+        array[j] = array[j + 3];
+        array[j + 1] = array[j + 4];
+        array[j + 2] = array[j + 5];
+
+        array[j + 3] = temp1;
+        array[j + 4] = temp2;
+        array[j + 5] = temp3;
+      }
+    }
+  }
+}
+
+
 void merge_telemetry(double **telemetries,
                      int tot_telemetries,
                      int *telemetries_sizes,
                      double* &global_telemetry,
                      int &global_telemetry_current_size,
                      int &global_telemetry_max_size) {
-  // IMPLEMENT YOUR FUNCTION HERE
+
+    for (int i = 0; i < tot_telemetries; i++) {
+        for (int j = 0; j < telemetries_sizes[i]; j++) {
+            global_telemetry = append_to_array(telemetries[i][j], global_telemetry, global_telemetry_current_size, global_telemetry_max_size);
+        }
+    }
+
+    sort(global_telemetry, global_telemetry_current_size);
 }
+
+//Bubble sort for 3 elemnt tuples sorted by first element
+
